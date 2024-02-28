@@ -111,7 +111,7 @@ class ChatAPIApp:
             description="(bool) Use cache",
         )
         stream: bool = Field(
-            default=True,
+            default=False,
             description="(bool) Stream",
         )
 
