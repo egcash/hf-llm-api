@@ -2,7 +2,8 @@ import json
 import re
 import requests
 
-from tiktoken import get_encoding as tiktoken_get_encoding
+
+from tclogger import logger
 from transformers import AutoTokenizer
 
 from constants.models import (
@@ -11,20 +12,18 @@ from constants.models import (
     TOKEN_LIMIT_MAP,
     TOKEN_RESERVED,
 )
+from constants.envs import PROXIES
 from messagers.message_outputer import OpenaiStreamOutputer
-from utils.logger import logger
-from utils.enver import enver
 
 
-class MessageStreamer:
-
+class HuggingfaceStreamer:
     def __init__(self, model: str):
         if model in MODEL_MAP.keys():
             self.model = model
         else:
-            self.model = "default"
+            self.model = "mixtral-8x7b"
         self.model_fullname = MODEL_MAP[self.model]
-        self.message_outputer = OpenaiStreamOutputer()
+        self.message_outputer = OpenaiStreamOutputer(model=self.model)
 
         if self.model == "gemma-7b":
             # this is not wrong, as repo `google/gemma-7b-it` is gated and must authenticate to access it
@@ -120,12 +119,11 @@ class MessageStreamer:
         #     ]
 
         logger.back(self.request_url)
-        enver.set_envs(proxies=True)
         stream_response = requests.post(
             self.request_url,
             headers=self.request_headers,
             json=self.request_body,
-            proxies=enver.requests_proxies,
+            proxies=PROXIES,
             stream=True,
         )
         status_code = stream_response.status_code

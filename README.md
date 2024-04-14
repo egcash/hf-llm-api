@@ -8,19 +8,22 @@ app_port: 23333
 ---
 
 ## HF-LLM-API
+
+![](https://img.shields.io/github/v/release/hansimov/hf-llm-api?label=HF-LLM-API&color=blue&cacheSeconds=60)
+
 Huggingface LLM Inference API in OpenAI message format.
 
 Project link: https://github.com/Hansimov/hf-llm-api
 
 ## Features
 
-- Available Models (2024/01/22): [#5](https://github.com/Hansimov/hf-llm-api/issues/5)
-  - `mistral-7b`, `mixtral-8x7b`, `nous-mixtral-8x7b`, `gemma-7b`
+- Available Models (2024/04/11):
+  - `mistral-7b`, `mixtral-8x7b`, `nous-mixtral-8x7b`, `gemma-7b`, `gpt-3.5-turbo`, `command-r-plus`
   - Adaptive prompt templates for different models
 - Support OpenAI API format
   - Enable api endpoint via official `openai-python` package
 - Support both stream and no-stream response
-- Support API Key via both HTTP auth header and env varible [#4](https://github.com/Hansimov/hf-llm-api/issues/4)
+- Support API Key via both HTTP auth header and env variable
 - Docker deployment
 
 ## Run API service
@@ -45,17 +48,17 @@ python -m apis.chat_api
 **Docker build:**
 
 ```bash
-sudo docker build -t hf-llm-api:1.0 . --build-arg http_proxy=$http_proxy --build-arg https_proxy=$https_proxy
+sudo docker build -t hf-llm-api:1.1.3 . --build-arg http_proxy=$http_proxy --build-arg https_proxy=$https_proxy
 ```
 
 **Docker run:**
 
 ```bash
 # no proxy
-sudo docker run -p 23333:23333 hf-llm-api:1.0
+sudo docker run -p 23333:23333 hf-llm-api:1.1.3
 
 # with proxy
-sudo docker run -p 23333:23333 --env http_proxy="http://<server>:<port>" hf-llm-api:1.0
+sudo docker run -p 23333:23333 --env http_proxy="http://<server>:<port>" hf-llm-api:1.1.3
 ```
 
 ## API Usage
