@@ -49,7 +49,7 @@ class ChatAPIApp:
         return api_key
 
     def auth_api_key(self, api_key: str):
-        env_api_key = SECRETS["HF_LLM_API_KEY"]
+        env_api_key = os.getenv("API_KEY")
 
         # require no api_key
         if not env_api_key:
